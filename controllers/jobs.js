@@ -34,7 +34,7 @@ export const updateJob = asyncWrapper(async (req, res, next) => {
   } = req;
 
   if (company === "" || position === "") {
-    return next(new BadRequest("Company or Positioin fields cannot be empty"));
+    return next(new BadRequest("Fields cannot be empty"));
   }
 
   const job = await Job.findOneAndUpdate(
