@@ -26,11 +26,17 @@ export const updateUser = asyncWrapper(async (req, res, next) => {
   if (!email || !name || !lastName || !location) {
     return next(new BadRequest("Please provide all values"));
   }
-  const user = await User.findOneAndUpdate(
-    { _id: req.user.userId },
-    { $set: { email, name, lastName, location } },
-    { new: true, runValidators: true }
-  );
+  // const user = await User.findOneAndUpdate(
+  //   { _id: req.user.userId },
+  //   { $set: { email, name, lastName, location } },
+  //   { new: true, runValidators: true }
+  // );
+
+  const user = await User.findOne({ _id: req.user.userId });
+  (user.name = name),
+    (user.lastName = lastName),
+    (user.email = email),
+    (user.location = location);
 
   await user.save();
   const token = user.createJWT();
