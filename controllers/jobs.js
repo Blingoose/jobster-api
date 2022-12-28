@@ -4,8 +4,56 @@ import { StatusCodes } from "http-status-codes";
 import { NotFoundError, BadRequest } from "../errors/index.js";
 
 export const getAllJobs = asyncWrapper(async (req, res, next) => {
-  const jobs = await Job.find({ createdBy: req.user.userId }).sort("createdAt");
-  res.status(StatusCodes.OK).json({ jobs, count: jobs.length });
+  const { search, status, jobType, sort } = req.query;
+
+  const queryObject = {
+    createdBy: req.user.userId,
+  };
+
+  if (search) {
+    queryObject.position = { $regex: search, $options: "i" };
+  }
+
+  if (status && status !== "all") {
+    queryObject.status = status;
+  }
+
+  if (jobType && jobType !== "all") {
+    queryObject.jobType = jobType;
+  }
+
+  let result = Job.find(queryObject);
+
+  //! less optimized
+  // switch (req.query.sort) {
+  //   case "latest":
+  //     result = result.sort("-createdAt");
+  //     break;
+  //   case "oldest":
+  //     result = result.sort("createdAt");
+  //     break;
+  //   case "a-z":
+  //     result = result.sort("position");
+  //     break;
+  //   case "z-a":
+  //     result = result.sort("-position");
+  //     break;
+  // }
+
+  //!!! a way better approach
+  const sortCriteria = {
+    latest: "-createdAt",
+    oldest: "createdAt",
+    "a-z": "position",
+    "z-a": "-position",
+  };
+
+  if (sort in sortCriteria) {
+    result = result.sort(sortCriteria[sort]);
+  }
+
+  const jobs = await result;
+  res.status(StatusCodes.OK).json({ jobs });
 });
 
 export const getJob = asyncWrapper(async (req, res, next) => {
