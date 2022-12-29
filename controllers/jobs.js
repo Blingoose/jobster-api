@@ -87,9 +87,14 @@ export const createJob = asyncWrapper(async (req, res, next) => {
 export const updateJob = asyncWrapper(async (req, res, next) => {
   const {
     body: { company, position },
-    user: { userId },
+    user: { userId, testUser },
     params: { id: jobId },
   } = req;
+
+  // restrict test user from editing jobs
+  if (testUser) {
+    return next(new BadRequest("Error: test user is read only!"));
+  }
 
   if (company === "" || position === "") {
     return next(new BadRequest("Fields cannot be empty"));
