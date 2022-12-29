@@ -24,7 +24,7 @@ export const getAllJobs = asyncWrapper(async (req, res, next) => {
 
   let result = Job.find(queryObject);
 
-  //! less optimized
+  //! less optimized sort
   // switch (req.query.sort) {
   //   case "latest":
   //     result = result.sort("-createdAt");
@@ -40,7 +40,7 @@ export const getAllJobs = asyncWrapper(async (req, res, next) => {
   //     break;
   // }
 
-  //!!! a way better approach
+  //!!! a way better approach to sort
   const sortCriteria = {
     latest: "-createdAt",
     oldest: "createdAt",
