@@ -32,10 +32,6 @@ export const updateUser = asyncWrapper(async (req, res, next) => {
   //   { new: true, runValidators: true }
   // );
 
-  if (req.user.testUser) {
-    return next(new BadRequest("Error: test user is read only!"));
-  }
-
   const user = await User.findOne({ _id: req.user.userId });
   (user.name = name),
     (user.lastName = lastName),
