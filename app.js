@@ -10,12 +10,12 @@ import { auth } from "./middleware/authentication.js";
 import authRouter from "./routes/auth.js";
 import jobsRouter from "./routes/jobs.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = fileURLToPath(new URL(".", import.meta.url));
-
 //extra security packages
 import helmet from "helmet";
 import xss from "xss-clean";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 dotenv.config();
 
