@@ -15,6 +15,8 @@ export const auth = asyncWrapper(async (req, res, next) => {
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
     const { userId, email } = payload;
+
+    // true if it's a testUser or false if it's not.
     const testUser = email === "testUser@test.com";
     req.user = { userId, testUser };
 
