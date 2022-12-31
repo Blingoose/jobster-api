@@ -15,9 +15,9 @@ const Landing = () => {
             job <span>tracking</span> app
           </h1>
           <p>
-            In times where we apply for many jobs in the pursuit of finding the
-            best match for ourselves, Jobster Tracking App will ensure that
-            you'll never forget what and where. Try it now!
+            In times when we apply for many jobs in the pursuit of finding the
+            best match for ourselves, Jobster Tracking App ensures that you'll
+            never forget the 'what and where'. Try it now!
           </p>
           <Link to="/register" className="btn btn-hero">
             Login/Register
