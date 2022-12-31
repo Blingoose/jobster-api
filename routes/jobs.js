@@ -6,11 +6,13 @@ import {
   createJob,
   updateJob,
   deleteJob,
+  showStats,
 } from "../controllers/jobs.js";
 
 const router = express.Router();
 
 router.route("/").post(testUser, createJob).get(getAllJobs);
+router.route("/stats").get(showStats);
 router
   .route("/:id")
   .get(getJob)

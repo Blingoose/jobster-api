@@ -2,6 +2,8 @@ import { asyncWrapper } from "../middleware/asyncWrapper.js";
 import { Job } from "../models/Job.js";
 import { StatusCodes } from "http-status-codes";
 import { NotFoundError, BadRequest } from "../errors/index.js";
+import mongoose from "mongoose";
+import moment from "moment";
 
 export const getAllJobs = asyncWrapper(async (req, res, next) => {
   const { search, status, jobType, sort } = req.query;
@@ -120,4 +122,15 @@ export const deleteJob = asyncWrapper(async (req, res, next) => {
   }
 
   res.status(StatusCodes.OK).json({ removed: { job } });
+});
+
+export const showStats = asyncWrapper(async (req, res, next) => {
+  let stats = await Job.aggregate([
+    { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+    { $group: { _id: "$status", count: { $sum: 1 } } },
+  ]);
+  console.log(stats);
+  res
+    .status(StatusCodes.OK)
+    .json({ defaultStats: {}, monthlyApplications: [] });
 });

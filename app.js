@@ -24,6 +24,8 @@ const start = async () => {
     await connectDB(process.env.MONGO_URI);
     const server = express();
 
+    server.set("trust proxy", 1);
+
     // Application specific middleware
     server.use(express.static(path.resolve(__dirname, "./client/build")));
     server.use(express.json());
