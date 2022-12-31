@@ -6,7 +6,7 @@ import { rateLimit } from "express-rate-limit";
 
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 1,
+  max: 3,
   message: (req, res) => {
     const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
     console.log(ip);
