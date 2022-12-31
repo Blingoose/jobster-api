@@ -167,6 +167,6 @@ export const showStats = asyncWrapper(async (req, res, next) => {
       return { date, count };
     })
     .reverse();
-  console.log(monthlyApplications);
+
   res.status(StatusCodes.OK).json({ defaultStats, monthlyApplications });
 });
