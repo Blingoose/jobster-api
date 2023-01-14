@@ -55,15 +55,15 @@ export const login = asyncWrapper(async (req, res, next) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return next(new BadRequest("Please provide email and password"));
+    throw new BadRequest("Please provide email and password");
   }
   const user = await User.findOne({ email });
   if (!user) {
-    return next(new UnauthenticatedError("User doesn't exist!"));
+    throw new UnauthenticatedError("User doesn't exist!");
   }
   const isPasswordCorrect = await user.comparePassword(password);
   if (!isPasswordCorrect) {
-    return next(new UnauthenticatedError("Invalid Credentials"));
+    throw new UnauthenticatedError("Invalid Credentials");
   }
   const token = user.createJWT();
   res.status(StatusCodes.OK).json({

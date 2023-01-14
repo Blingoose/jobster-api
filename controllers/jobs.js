@@ -75,7 +75,7 @@ export const getJob = asyncWrapper(async (req, res, next) => {
   } = req;
   const job = await Job.findOne({ _id: jobId, createdBy: userId });
   if (!job) {
-    return next(new NotFoundError(`No job with id ${jobId}`));
+    throw new NotFoundError(`No job with id ${jobId}`);
   }
   res.status(StatusCodes.OK).json({ job });
 });
@@ -94,7 +94,7 @@ export const updateJob = asyncWrapper(async (req, res, next) => {
   } = req;
 
   if (company === "" || position === "") {
-    return next(new BadRequest("Fields cannot be empty"));
+    throw new BadRequest("Fields cannot be empty");
   }
 
   const job = await Job.findOneAndUpdate(
@@ -104,7 +104,7 @@ export const updateJob = asyncWrapper(async (req, res, next) => {
   );
 
   if (!job) {
-    return next(new NotFoundError(`No job with id ${jobId}`));
+    throw new NotFoundError(`No job with id ${jobId}`);
   }
   res.status(StatusCodes.OK).json({ job });
 });
@@ -118,7 +118,7 @@ export const deleteJob = asyncWrapper(async (req, res, next) => {
   const job = await Job.findOneAndRemove({ _id: jobId, createdBy: userId });
 
   if (!job) {
-    return next(new NotFoundError(`No job with id ${jobId}`));
+    throw new NotFoundError(`No job with id ${jobId}`);
   }
 
   res.status(StatusCodes.OK).json({ removed: { job } });
