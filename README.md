@@ -1,4 +1,4 @@
-# jobster_api
+# Jobster-Api
 
 ## Big thanks to Instructor John Smilga https://www.johnsmilga.com for making this project possible
 
